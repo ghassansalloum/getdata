@@ -6,7 +6,7 @@ Course project
 This project required acquiring, tidying, and subsetting the data set available at https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
 
 
-**Step 1 - Extract the relevant datasets from the unzipped files.**
+**Step 1. Extract the relevant datasets from the unzipped files.**
 
 I start by downloading and unzipping the data set in a local working directory.
 
@@ -37,13 +37,15 @@ Train observation 1 |
 Train observation 7352 |
 
 
-**Step 2 - Label the variable names**
+**Step 2. Label the variable names**
 
 The variables were described, in the right order, in header-less file "features.txt" under "UCI HAR Dataset"
 I read the file content in a data frame (called "features"). The names that I needed were in the second column (features$V2).
-I then used setnames() (from the data.table library) to set the names of all 563 columns (subject, activity, and the 561 measurement columns)
 
-** Step 3. Extract only the measurements on the mean and standard deviation for each measurement. **
+I then used setnames() (from the data.table library) to set the names of all 563 columns (subject, activity, and the 561 measurement columns).
+
+
+**Step 3. Extract only the measurements on the mean and standard deviation for each measurement.**
 
 The project requirement is slightly ambiguous. Should all measurements that include the word "mean" be included? Some are measurements where the mean was an input (for example: angle(X,gravityMean)).
 
@@ -57,29 +59,32 @@ I then used select() (from the dplyr library) to build a smaller data set that o
 ```
 data_small <- select(data_all, one_of(goodcols))
 ```
-	
-** Step 4. Use activity names instead of numbers in the data set **
+
+
+**Step 4. Use activity names instead of numbers in the data set.**
 The names of the activities are found in the file "activity_labels.txt".
 I read the content of that file into a data frame (called activitynames), and converted the 'activity' column to factors with the labels being the 'activitynames'
 
 **Step 5. Used gather() to create a transition data frame where I will do the computation.**
 Using gather() (from the tidyr library), I converted the measurement columns into a single column with multiple values, into a temporary data frame called res.
 This is what res looks like:
-			subject         activity                measurement    results
-		 1:       2         STANDING          tBodyAcc-mean()-X  0.2571778
-		 2:       2         STANDING          tBodyAcc-mean()-X  0.2860267
-		 3:       2         STANDING          tBodyAcc-mean()-X  0.2754848
-		 4:       2         STANDING          tBodyAcc-mean()-X  0.2702982
-		 5:       2         STANDING          tBodyAcc-mean()-X  0.2748330
-		---                                                               
-	679730:      30 WALKING_UPSTAIRS fBodyBodyGyroJerkMag-std() -0.7239514
-	679731:      30 WALKING_UPSTAIRS fBodyBodyGyroJerkMag-std() -0.7711831
-	679732:      30 WALKING_UPSTAIRS fBodyBodyGyroJerkMag-std() -0.7263718
-	679733:      30 WALKING_UPSTAIRS fBodyBodyGyroJerkMag-std() -0.6894209
-	679734:      30 WALKING_UPSTAIRS fBodyBodyGyroJerkMag-std() -0.7451204
+
+(row)	  |subject|activity|measurement|results
+---------|-------|-----------|-------------|---
+1       |2      |STANDING|tBodyAcc-mean()-X|0.2571778
+2       |2      |STANDING|tBodyAcc-mean()-X |0.2860267
+3       |2      |STANDING|tBodyAcc-mean()-X |0.2754848
+4       |2      |STANDING|tBodyAcc-mean()-X  |0.2702982
+5       |2      |STANDING| tBodyAcc-mean()-X |0.2748330
+---     |                                                          
+679730  |30| WALKING_UPSTAIRS| fBodyBodyGyroJerkMag-std()|-0.7239514
+679731  |30| WALKING_UPSTAIRS| fBodyBodyGyroJerkMag-std()|-0.7711831
+679732  |30| WALKING_UPSTAIRS| fBodyBodyGyroJerkMag-std()|-0.7263718
+679733  |30| WALKING_UPSTAIRS| fBodyBodyGyroJerkMag-std()|-0.6894209
+679734  |30| WALKING_UPSTAIRS| fBodyBodyGyroJerkMag-std()|-0.7451204
 
 	
-**Step 6- Compute the averages of the chosen measurements**
+**Step 6. Compute the averages of the chosen measurements**
 I then used a chain of dplyr commands to compute the average of each measurement (for each subject and activity combination). 
 ```
 	res %>% 
@@ -123,11 +128,11 @@ Since we're not interested in keeping the individual measurements in the output 
 	..     ...      ...                  ...         ...
 
 
-**Step 7 - Create a tidy data set and write it to a file**	
-Wickham's "Tidy data" paper (2007) lists three principles for tidy data.
-	1. Each variable forms a column.
-	2. Each observation forms a row.
-	3. Each type of observational unit forms a table.
+**Step 7. Create a tidy data set and write it to a file**	
+Wickham's "Tidy data" paper (2007) lists three principles for tidy data:
+1. Each variable forms a column.
+2. Each observation forms a row.
+3. Each type of observational unit forms a table.
 	
 Principle 1 is of particular interest for this project. I considered the various measurements (average of tBodyAcc-mean()-X, and average of tBodyAcc-std()-X) are different variables, which means that the "meltedata" data frame is not tidy yet. This lead me to spread() (from the tidyr library) those variables into their own columns, and store the result in a data frame called "tidydata".
 
