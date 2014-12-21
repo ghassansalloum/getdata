@@ -1,12 +1,12 @@
 Coursera Data Science Specialization track
-Getting and Cleaning Data - https://class.coursera.org/getdata-016/
+[Getting and Cleaning Data](https://class.coursera.org/getdata-016/)
 Course project
 ===========================================
 
 This project required acquiring, tidying, and subsetting the data set available at https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
 
 
-**Step 1. Extract the relevant datasets from the unzipped files.**
+##Step 1. Extract the relevant datasets from the unzipped files.
 
 I start by downloading and unzipping the data set in a local working directory.
 
@@ -37,7 +37,7 @@ Train observation 1 |
 Train observation 7352 |
 
 
-**Step 2. Label the variable names**
+##Step 2. Label the variable names
 
 The variables were described, in the right order, in header-less file "features.txt" under "UCI HAR Dataset"
 I read the file content in a data frame (called "features"). The names that I needed were in the second column (features$V2).
@@ -45,27 +45,29 @@ I read the file content in a data frame (called "features"). The names that I ne
 I then used setnames() (from the data.table library) to set the names of all 563 columns (subject, activity, and the 561 measurement columns).
 
 
-**Step 3. Extract only the measurements on the mean and standard deviation for each measurement.**
+##Step 3. Extract only the measurements on the mean and standard deviation for each measurement.
 
 The project requirement is slightly ambiguous. Should all measurements that include the word "mean" be included? Some are measurements where the mean was an input (for example: angle(X,gravityMean)).
 
 I made an assumption, and documented how the code can be changed if someone disagrees with my assumption. The assumption is the following: the measurements that include the word "mean" and that have to be included, are those that have a corresponding measurement where "mean" is replaced by "std" (for example: fBodyBodyGyroJerkMag-mean() and fBodyBodyGyroJerkMag-std())
 
 I used the grep() function and a simple regular expression to select the columns of interest (the "good columns"). I looked for columns that include "-mean()" and "-std()" in their name.
-```
+```R
 goodcols  <- c("subject", "activity", grep("(-mean\\()+|(std\\()+", names(data_all), value=TRUE))
 ```
 I then used select() (from the dplyr library) to build a smaller data set that only includes the resulting 68 columns.
-```
+```R
 data_small <- select(data_all, one_of(goodcols))
 ```
 
 
-**Step 4. Use activity names instead of numbers in the data set.**
+##Step 4. Use activity names instead of numbers in the data set.
+
 The names of the activities are found in the file "activity_labels.txt".
 I read the content of that file into a data frame (called activitynames), and converted the 'activity' column to factors with the labels being the 'activitynames'
 
-**Step 5. Used gather() to create a transition data frame where I will do the computation.**
+##Step 5. Create a temp data frame to do the computations.
+
 Using gather() (from the tidyr library), I converted the measurement columns into a single column with multiple values, into a temporary data frame called res.
 This is what res looks like:
 
@@ -84,12 +86,13 @@ This is what res looks like:
 679734  |30| WALKING_UPSTAIRS| fBodyBodyGyroJerkMag-std()|-0.7451204
 
 	
-**Step 6. Compute the averages of the chosen measurements**
+##Step 6. Compute the averages of the chosen measurements
+
 I then used a chain of dplyr commands to compute the average of each measurement (for each subject and activity combination). 
-```
-	res %>% 
-	  group_by(subject, activity, measurement) %>% 
-	  mutate(averages = mean(results))
+```R
+res %>% 
+  group_by(subject, activity, measurement) %>% 
+  mutate(averages = mean(results))
 ```
 This results in the following data frame:
 
@@ -128,30 +131,34 @@ Since we're not interested in keeping the individual measurements in the output 
 	..     ...      ...                  ...         ...
 
 
-**Step 7. Create a tidy data set and write it to a file**	
-Wickham's "Tidy data" paper (2007) lists three principles for tidy data:
+##Step 7. Create a tidy data set and write it to a file
+
+Wickham's ["Tidy data" paper](http://vita.had.co.nz/papers/tidy-data.pdf) lists three principles for tidy data:
+```
 1. Each variable forms a column.
 2. Each observation forms a row.
 3. Each type of observational unit forms a table.
-	
-Principle 1 is of particular interest for this project. I considered the various measurements (average of tBodyAcc-mean()-X, and average of tBodyAcc-std()-X) are different variables, which means that the "meltedata" data frame is not tidy yet. This lead me to spread() (from the tidyr library) those variables into their own columns, and store the result in a data frame called "tidydata".
+```
 
+Principle 1 is of particular interest for this project. I considered the various measurements (average of tBodyAcc-mean()-X, and average of tBodyAcc-std()-X) are different variables, which means that the "meltedata" data frame is not tidy yet. This lead me to spread() (from the tidyr library) those variables into their own columns, and store the result in a data frame called "tidydata".
+###Clean up variable names
 But before calling spread(), I cleaned up the variable names a bit. I noticed for example that some variables had the word "Body" twice (as such: BodyBody), I considered that to be a typo in the original data set and fixed it using the gsub() function. Also, in the course of implementing the code of the project I also noticed that some functions throw an error if a variable name has a hyphen "-" in it, so I removed all the hyphens and replaced them with dots "." to maintain readability.
 	fBodyAcc-mean()-X became fBodyAcc.mean().X, for example.
 
+###Spread the variables into colums
 After cleaning the variable names, I spread the measurements into their own variables:
-```
+```R
 tidydata <- meltedata %>% spread(measurement, averages)
 ```
 tidydata has 180 rows and 68 columns. The code book for tidydata is in "Codebook.txt". Note that the original data set did not specify the units of the measurements as far as I could tell, so I indicated in the code book that the units are also missing from the tidy data set that I generated.
 	
 	
 The last step in the script is to write tidydata to a file. I did that with the following command:
-```
+```R
 write.table(tidydata, "outputdata.txt", quote=FALSE, row.names=FALSE)
 ```	
 To read the file simply use:
-```
+```R
 read.table("outputdata.txt", header=TRUE)
 ```	
-I thank the community TA David Hood for suggesting to include the read.table command in this Readme. He posted an extensive FAQ at this address:  https://class.coursera.org/getdata-016/forum/thread?thread_id=50
+I thank the community TA David Hood for suggesting to include the read.table command in this Readme. He posted [an extensive FAQ](https://class.coursera.org/getdata-016/forum/thread?thread_id=50)
