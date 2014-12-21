@@ -6,7 +6,7 @@ Course project
 This project required acquiring, tidying, and subsetting the data set available at https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
 
 
-*Step 1 - Extract the relevant datasets from the unzipped files.*
+**Step 1 - Extract the relevant datasets from the unzipped files.**
 
 I start by downloading and unzipping the data set in a local working directory.
 
@@ -27,39 +27,42 @@ The number of rows aren't really important for the analysis, but they helped giv
 
 The first step was to create a "super data set" of all the data. I used cbind and rbind to create a data frame (called data_all) with the following pattern:
 
-subject (int)  activity (int)  measurement 1 (num) ... measurement 561 (num)
-Test observation 1
-..
-Test observation 2947
-Train observation 1
-..
-Train observation 7352
+subject (int) | activity (int) | measurement 1 (num) |...| measurement 561 (num)
+----|----|----|----|----|---|
+Test observation 1 |
+.. |
+Test observation 2947 |
+Train observation 1 |
+.. |
+Train observation 7352 |
 
 
-Step 2 - Label the variable names
+**Step 2 - Label the variable names**
 
 The variables were described, in the right order, in header-less file "features.txt" under "UCI HAR Dataset"
 I read the file content in a data frame (called "features"). The names that I needed were in the second column (features$V2).
 I then used setnames() (from the data.table library) to set the names of all 563 columns (subject, activity, and the 561 measurement columns)
 
-Step 3. Extract only the measurements on the mean and standard deviation for each measurement. 
+** Step 3. Extract only the measurements on the mean and standard deviation for each measurement. **
 
 The project requirement is slightly ambiguous. Should all measurements that include the word "mean" be included? Some are measurements where the mean was an input (for example: angle(X,gravityMean)).
 
 I made an assumption, and documented how the code can be changed if someone disagrees with my assumption. The assumption is the following: the measurements that include the word "mean" and that have to be included, are those that have a corresponding measurement where "mean" is replaced by "std" (for example: fBodyBodyGyroJerkMag-mean() and fBodyBodyGyroJerkMag-std())
 
 I used the grep() function and a simple regular expression to select the columns of interest (the "good columns"). I looked for columns that include "-mean()" and "-std()" in their name.
-	goodcols  <- c("subject", "activity", grep("(-mean\\()+|(std\\()+", names(data_all), value=TRUE))
-
+```
+goodcols  <- c("subject", "activity", grep("(-mean\\()+|(std\\()+", names(data_all), value=TRUE))
+```
 I then used select() (from the dplyr library) to build a smaller data set that only includes the resulting 68 columns.
-	data_small <- select(data_all, one_of(goodcols))
-
+```
+data_small <- select(data_all, one_of(goodcols))
+```
 	
-Step 4. Use activity names instead of numbers in the data set 
+** Step 4. Use activity names instead of numbers in the data set **
 The names of the activities are found in the file "activity_labels.txt".
 I read the content of that file into a data frame (called activitynames), and converted the 'activity' column to factors with the labels being the 'activitynames'
 
-Step 5. Used gather() to create a transition data frame where I will do the computation.
+**Step 5. Used gather() to create a transition data frame where I will do the computation.**
 Using gather() (from the tidyr library), I converted the measurement columns into a single column with multiple values, into a temporary data frame called res.
 This is what res looks like:
 			subject         activity                measurement    results
@@ -76,13 +79,13 @@ This is what res looks like:
 	679734:      30 WALKING_UPSTAIRS fBodyBodyGyroJerkMag-std() -0.7451204
 
 	
-Step 6- Compute the averages of the chosen measurements
+**Step 6- Compute the averages of the chosen measurements**
 I then used a chain of dplyr commands to compute the average of each measurement (for each subject and activity combination). 
-
+```
 	res %>% 
 	  group_by(subject, activity, measurement) %>% 
 	  mutate(averages = mean(results))
-
+```
 This results in the following data frame:
 
 	Source: local data table [679,734 x 5]
@@ -120,7 +123,7 @@ Since we're not interested in keeping the individual measurements in the output 
 	..     ...      ...                  ...         ...
 
 
-Step 7 - Create a tidy data set and write it to a file	
+**Step 7 - Create a tidy data set and write it to a file**	
 Wickham's "Tidy data" paper (2007) lists three principles for tidy data.
 	1. Each variable forms a column.
 	2. Each observation forms a row.
@@ -132,15 +135,18 @@ But before calling spread(), I cleaned up the variable names a bit. I noticed fo
 	fBodyAcc-mean()-X became fBodyAcc.mean().X, for example.
 
 After cleaning the variable names, I spread the measurements into their own variables:
-	tidydata <- meltedata %>% spread(measurement, averages)
-
+```
+tidydata <- meltedata %>% spread(measurement, averages)
+```
 tidydata has 180 rows and 68 columns. The code book for tidydata is in "Codebook.txt". Note that the original data set did not specify the units of the measurements as far as I could tell, so I indicated in the code book that the units are also missing from the tidy data set that I generated.
 	
 	
 The last step in the script is to write tidydata to a file. I did that with the following command:
-	write.table(tidydata, "outputdata.txt", quote=FALSE, row.names=FALSE)
-	
+```
+write.table(tidydata, "outputdata.txt", quote=FALSE, row.names=FALSE)
+```	
 To read the file simply use:
-	read.table("outputdata.txt", header=TRUE)
-	
+```
+read.table("outputdata.txt", header=TRUE)
+```	
 I thank the community TA David Hood for suggesting to include the read.table command in this Readme. He posted an extensive FAQ at this address:  https://class.coursera.org/getdata-016/forum/thread?thread_id=50
