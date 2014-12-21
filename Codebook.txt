@@ -1,0 +1,317 @@
+Data Dictionary - Coursera Getting and Cleaning Data course project
+
+
+Subject
+	The id of the subject that participated in the study. represented by an integer (1 to 30).
+		1..30 Unique id for the subject
+
+Activity
+	The name of one of the six activities 
+		WALKING
+		WALKING_UPSTAIRS
+		WALKING_DOWNSTAIRS
+		SITTING
+		STANDING
+		LAYING 
+
+	
+Columns 3 to 68 represent the average of the measurement indicated by the column name (Subjects participated in each activity more than once. The columns in the output file I generated are the averages of each of the variables listed above for each combination of subject / activity.).
+	To describe what each of the original measurements was, I'll include a snippet from the "features_info.txt" file in the original data set (available at: https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip)
+
+	The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix 't' to denote time) were captured at a constant rate of 50 Hz. Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz. 
+
+	Subsequently, the body linear acceleration and angular velocity were derived in time to obtain Jerk signals (tBodyAccJerk-XYZ and tBodyGyroJerk-XYZ). Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm (tBodyAccMag, tGravityAccMag, tBodyAccJerkMag, tBodyGyroMag, tBodyGyroJerkMag). 
+
+	Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the 'f' to indicate frequency domain signals). 
+
+	These signals were used to estimate variables of the feature vector for each pattern:  
+	'-XYZ' is used to denote 3-axial signals in the X, Y and Z directions.
+
+	tBodyAcc-XYZ
+	tGravityAcc-XYZ
+	tBodyAccJerk-XYZ
+	tBodyGyro-XYZ
+	tBodyGyroJerk-XYZ
+	tBodyAccMag
+	tGravityAccMag
+	tBodyAccJerkMag
+	tBodyGyroMag
+	tBodyGyroJerkMag
+	fBodyAcc-XYZ
+	fBodyAccJerk-XYZ
+	fBodyGyro-XYZ
+	fBodyAccMag
+	fBodyAccJerkMag
+	fBodyGyroMag
+	fBodyGyroJerkMag
+
+	The set of variables that were estimated from these signals are: 
+
+	mean(): Mean value
+	std(): Standard deviation
+
+
+fBodyAcc.mean().X
+	Average of the mean of fBodyAcc along the X axis
+	Unit unspecified in raw data set
+	
+fBodyAcc.mean().Y 
+	Average of the mean of fBodyAcc along the Y axis
+	Unit unspecified in raw data set
+	
+fBodyAcc.mean().Z 
+	Average of the mean of fBodyAcc along the Z axis
+	Unit unspecified in raw data set
+	
+fBodyAcc.std().X 
+	Average of the standard deviation of fBodyAcc along the X axis
+	Unit unspecified in raw data set
+	
+fBodyAcc.std().Y 
+	Average of the standard deviation of fBodyAcc along the Y axis
+	Unit unspecified in raw data set
+	
+fBodyAcc.std().Z 
+	Average of the standard deviation of fBodyAcc along the Z axis
+	Unit unspecified in raw data set
+
+fBodyAccJerk.mean().X 
+	Average of the mean of fBodyAccJerk along the X axis
+	Unit unspecified in raw data set
+
+fBodyAccJerk.mean().Y 
+	Average of the mean of fBodyAccJerk along the Y axis
+	Unit unspecified in raw data set
+
+fBodyAccJerk.mean().Z 
+	Average of the mean of fBodyAccJerk along the Z axis
+	Unit unspecified in raw data set
+
+fBodyAccJerk.std().X 
+	Average of the standard deviation of fBodyAccJerk along the X axis
+	Unit unspecified in raw data set
+
+fBodyAccJerk.std().Y 
+	Average of the standard deviation of fBodyAccJerk along the Y axis
+	Unit unspecified in raw data set
+
+fBodyAccJerk.std().Z 
+	Average of the standard deviation of fBodyAccJerk along the Z axis
+	Unit unspecified in raw data set
+
+fBodyAccJerkMag.mean() 
+	Average of the mean of fBodyAccJerkMag
+	Unit unspecified in raw data set
+
+fBodyAccJerkMag.std() 
+	Average of the standard deviation of fBodyAccJerkMag
+	Unit unspecified in raw data set
+
+fBodyAccMag.mean() 
+	Average of the mean of fBodyAccMag
+	Unit unspecified in raw data set
+
+fBodyAccMag.std() 
+	Average of the standard deviation of fBodyAccMag
+	Unit unspecified in raw data set
+
+fBodyGyro.mean().X 
+	Average of the mean of fBodyGyro along the X axis
+	Unit unspecified in raw data set
+
+fBodyGyro.mean().Y 
+	Average of the mean of fBodyGyro along the Y axis
+	Unit unspecified in raw data set
+
+fBodyGyro.mean().Z 
+	Average of the mean of fBodyGyro along the Z axis
+	Unit unspecified in raw data set
+
+fBodyGyro.std().X 
+	Average of the standard deviation of fBodyGyro along the X axis
+	Unit unspecified in raw data set
+
+fBodyGyro.std().Y 
+	Average of the standard deviation of fBodyGyro along the X axis
+	Unit unspecified in raw data set
+
+fBodyGyro.std().Z 
+	Average of the standard deviation of fBodyGyro along the Z axis
+	Unit unspecified in raw data set
+
+fBodyGyroJerkMag.mean() 
+	Average of the mean of fBodyGyroJerkMag
+	Unit unspecified in raw data set
+
+fBodyGyroJerkMag.std() 
+	Average of the standard deviation of fBodyGyroJerkMag
+	Unit unspecified in raw data set
+
+fBodyGyroMag.mean() 
+	Average of the mean of fBodyGyroMag
+	Unit unspecified in raw data set
+
+fBodyGyroMag.std() 
+	Average of the standard deviation of fBodyGyroMag
+	Unit unspecified in raw data set
+
+tBodyAcc.mean().X 
+	Average of the mean of tBodyAcc along the X axis
+	Unit unspecified in raw data set
+
+tBodyAcc.mean().Y 
+	Average of the mean of tBodyAcc along the Y axis
+	Unit unspecified in raw data set
+
+tBodyAcc.mean().Z 
+	Average of the mean of tBodyAcc along the Z axis
+	Unit unspecified in raw data set
+
+tBodyAcc.std().X 
+	Average of the standard deviation of tBodyAcc along the X axis
+	Unit unspecified in raw data set
+
+tBodyAcc.std().Y 
+	Average of the standard deviation of tBodyAcc along the Y axis
+	Unit unspecified in raw data set
+
+tBodyAcc.std().Z 
+	Average of the standard deviation of tBodyAcc along the Z axis
+	Unit unspecified in raw data set
+
+tBodyAccJerk.mean().X 
+	Average of the mean of tBodyAccJerk along the X axis
+	Unit unspecified in raw data set
+
+tBodyAccJerk.mean().Y 
+	Average of the mean of tBodyAccJerk along the Y axis
+	Unit unspecified in raw data set
+
+tBodyAccJerk.mean().Z 
+	Average of the mean of tBodyAccJerk along the Z axis
+	Unit unspecified in raw data set
+
+tBodyAccJerk.std().X 
+	Average of the standard deviation of tBodyAccJerk along the X axis
+	Unit unspecified in raw data set
+
+tBodyAccJerk.std().Y 
+	Average of the standard deviation of tBodyAccJerk along the Y axis
+	Unit unspecified in raw data set
+	
+tBodyAccJerk.std().Z 
+	Average of the standard deviation of tBodyAccJerk along the Z axis
+	Unit unspecified in raw data set
+
+tBodyAccJerkMag.mean() 
+	Average of the mean of tBodyAccJerkMag
+	Unit unspecified in raw data set
+
+tBodyAccJerkMag.std() 
+	Average of the standard deviation of tBodyAccJerkMag
+	Unit unspecified in raw data set
+
+tBodyAccMag.mean() 
+	Average of the mean of tBodyAccMag
+	Unit unspecified in raw data set
+
+tBodyAccMag.std() 
+	Average of the standard deviation of tBodyAccMag
+	Unit unspecified in raw data set
+
+tBodyGyro.mean().X 
+	Average of the mean of tBodyGyro along the X axis
+	Unit unspecified in raw data set
+
+tBodyGyro.mean().Y 
+	Average of the mean of tBodyGyro along the Y axis
+	Unit unspecified in raw data set
+
+tBodyGyro.mean().Z 
+	Average of the mean of tBodyGyro along the Z axis
+	Unit unspecified in raw data set
+
+tBodyGyro.std().X 
+	Average of the standard deviation of tBodyGyro along the X axis
+	Unit unspecified in raw data set
+	
+tBodyGyro.std().Y 
+	Average of the standard deviation of tBodyGyro along the Y axis
+	Unit unspecified in raw data set
+
+tBodyGyro.std().Z 
+	Average of the standard deviation of tBodyGyro along the Z axis
+	Unit unspecified in raw data set
+
+tBodyGyroJerk.mean().X 
+	Average of the mean of tBodyGyroJerk along the X axis
+	Unit unspecified in raw data set
+
+tBodyGyroJerk.mean().Y 
+	Average of the mean of tBodyGyroJerk along the Y axis
+	Unit unspecified in raw data set
+
+tBodyGyroJerk.mean().Z 
+	Average of the mean of tBodyGyroJerk along the Z axis
+	Unit unspecified in raw data set
+
+tBodyGyroJerk.std().X 
+	Average of the standard deviation of tBodyGyroJerk along the X axis
+	Unit unspecified in raw data set
+
+tBodyGyroJerk.std().Y 
+	Average of the standard deviation of tBodyGyroJerk along the Y axis
+	Unit unspecified in raw data set
+
+tBodyGyroJerk.std().Z 
+	Average of the standard deviation of tBodyGyroJerk along the Z axis
+	Unit unspecified in raw data set
+
+tBodyGyroJerkMag.mean() 
+	Average of the mean of tBodyGyroJerkMag
+	Unit unspecified in raw data set
+
+tBodyGyroJerkMag.std() 
+	Average of the standard deviation of tBodyGyroJerkMag
+	Unit unspecified in raw data set
+	
+tBodyGyroMag.mean() 
+	Average of the mean of tBodyGyroMag
+	Unit unspecified in raw data set
+	
+tBodyGyroMag.std() 
+	Average of the standard deviation of tBodyGyroMag
+	Unit unspecified in raw data set
+	
+
+tGravityAcc.mean().X 
+	Average of the mean of tGravityAcc along the X axis
+	Unit unspecified in raw data set
+
+tGravityAcc.mean().Y 
+	Average of the mean of tGravityAcc along the Y axis
+	Unit unspecified in raw data set
+
+tGravityAcc.mean().Z 
+	Average of the mean of tGravityAcc along the Z axis
+	Unit unspecified in raw data set
+
+tGravityAcc.std().X 
+	Average of the standard deviation of tGravityAcc along the X axis
+	Unit unspecified in raw data set
+
+tGravityAcc.std().Y 
+	Average of the standard deviation of tGravityAcc along the Y axis
+	Unit unspecified in raw data set
+
+tGravityAcc.std().Z 
+	Average of the standard deviation of tGravityAcc along the Z axis
+	Unit unspecified in raw data set
+
+tGravityAccMag.mean() 
+	Average of the mean of tGravityAccMag
+	Unit unspecified in raw data set
+
+tGravityAccMag.std()
+	Average of the standard deviation of tGravityAccMag
+	Unit unspecified in raw data set
