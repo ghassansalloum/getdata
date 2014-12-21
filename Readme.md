@@ -6,7 +6,7 @@ Course project
 This project required acquiring, tidying, and subsetting the data set available at https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
 
 
-Step 1 - Extract the relevant datasets from the unzipped files.
+*Step 1 - Extract the relevant datasets from the unzipped files.*
 
 I start by downloading and unzipping the data set in a local working directory.
 
